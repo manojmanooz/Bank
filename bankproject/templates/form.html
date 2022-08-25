@@ -1,0 +1,129 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="{% static 'form/style.css' %}">
+	<title>Registration Form</title>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/i18n/zh-TW.min.js" integrity="sha512-whWyZS4LtoXu4LzFJbHIgL9Cr7Sf2+KyeEAGumtXN+8U234v1R89monfd9PLYnC0TNBArmPnkFOVo8ShuMpZaw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" integrity="sha512-nMNlpuaDPrqlEls3IX/Q56H36qvBASwb3ipuo3MxeWbsQB1881ox0cRv7UPTgBlriqoynt35KjEwgGUeUXIPnw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+	<script>
+		function populate(s1,s2)
+		{
+			var s1 = document.getElementById(s1);
+			var s2 = document.getElementById(s2);
+
+			s2.innerHTML ="";
+
+			if(s1.value == "Palakkad")
+			{
+				var optionArray = ['alathur|Alathur','vadakkenchery|Vadakkenchery','mangalam|Mangalam','nenmara|Nenmara'];
+			}
+			else if(s1.value == "Thrissur")
+			{
+				var optionArray = ['mannuthy|Mannuthy','guruvayur|Guruvayur','athani|Athani','kuttanellur|Kuttanellur'];
+			}
+			else if(s1.value == "Ernakulam")
+			{
+				var optionArray = ['kalamasseri|Kalamasseri','kaloor|Kaloor','fortkochi|Fort Kochi','vyttila|Vyttila'];
+			}
+			for(var option in optionArray)
+			{
+				var pair= optionArray[option].split("|");
+				var newoption = document.createElement("option");
+
+				newoption.value = pair[0];
+				newoption.innerHTML=pair[1];
+				s2.options.add(newoption)
+			}
+		}
+		</script>
+</head>
+<body>
+
+<div class="wrapper">
+	<div class="title" style="color:#26547c;">
+		Registration Form
+	</div>
+	<div class="form">
+		<form method="post" enctype="multipart/form-data">
+			{% csrf_token %}
+		<div class="input_field">
+			<label>Name:</label>
+			<input type="text" name="name" class="input">
+		</div>
+		<div class="input_field">
+			<label>Date Of Birth:</label>
+			<input type="date" name="date" class="input">
+		</div>
+		<div class="input_field">
+			<label>E-mail ID:</label>
+			<input type="email" name="email" class="input">
+		</div>
+		<div class="input_field">
+			<label>Phone Number:</label>
+			<input type="text" name="phone" class="input">
+		</div>		
+		<div class="input_field">
+			<label>Age:</label>
+			<input type="number" name="age" class="input">
+		</div>
+		<div class="input_field">
+			<label>Gender:</label>
+			<div>
+			<label>Male:</label><input type="radio" name="gender" value="male">&nbsp;&nbsp;
+			<label>Female:</label><input type="radio" name="gender" value="female">
+			</div>
+		</div>
+		<div class="input_field">
+			<label>District:</label>
+			<div class="custom_select">
+
+				<select name="slct1" id="slct1" onchange="populate(this.id,'slct2')">
+
+					<option value="">Select District</option>
+					<option name="palakkad">Palakkad</option>
+					<option name="Thrissur">Thrissur</option>
+					<option name="Ernakulam">Ernakulam</option>
+				</select>
+
+			</div>
+		</div>
+		<div class="input_field">
+			<label>Branch:</label>
+			<div class="custom_select">
+
+				<select name="slct2" id="slct2">
+				</select>
+
+			</div>
+		</div>
+		<div class="input_field">
+			<label>Address:</label>
+			<textarea class="textarea" name="address"></textarea>
+		</div>
+		<div class="input_field">
+			<label>Materials Provide:</label>
+			<div>
+
+
+			<label>Credit Card:</label><input type="checkbox" name="credit">&nbsp;&nbsp;
+			<label>Debit Card:</label><input type="checkbox" name="debit">&nbsp;&nbsp;
+			<label>Cheque Book:</label><input type="checkbox" name="cheque">&nbsp;&nbsp;
+
+			</div>
+		</div>
+		<div>
+			<input type="submit" value="Register" class="btn">&nbsp;&nbsp;
+			<button><label><a href="{% url 'logout' %}" style="text-decoration:none;color:white;font-family: 'Poppins', sans-serif;"> Logout</a></label></button>
+		</div>
+			{% for i in messages %}
+			<label>{{i}}</label>
+			{% endfor %}
+		</form>
+	</div>
+</div>
+</body>
+</html>
